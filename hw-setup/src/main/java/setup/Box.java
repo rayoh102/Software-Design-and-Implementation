@@ -13,6 +13,8 @@ package setup;
 
 import java.lang.Iterable;
 import java.util.Iterator;
+import java.util.Comparator;
+import java.util.TreeSet;
 
 /**
  * This is a container can be used to contain Balls. The key
@@ -26,6 +28,8 @@ public class Box implements Iterable<Ball> {
      */
     private BallContainer ballContainer;
 
+    private double maxVolume;
+
     /**
      * Constructor that creates a new box.
      *
@@ -33,7 +37,8 @@ public class Box implements Iterable<Ball> {
      */
     public Box(double maxVolume) {
         // Your code goes here.  Remove the exception after you're done.
-        throw new RuntimeException("Method not implemented");
+        ballContainer = new BallContainer();
+        this.maxVolume = maxVolume;
     }
 
     /**
@@ -65,7 +70,12 @@ public class Box implements Iterable<Ball> {
      */
     public boolean add(Ball b) {
         // Your code goes here.  Remove the exception after you're done.
-        throw new RuntimeException("Method not implemented");
+        if (contains(b) || getVolume() + b.getVolume() > maxVolume ) {
+            return false;
+        }
+        else {
+            return ballContainer.add(b);
+        }
     }
 
     /**
@@ -78,7 +88,14 @@ public class Box implements Iterable<Ball> {
      */
     public Iterator<Ball> getBallsFromSmallest() {
         // Your code goes here.  Remove the exception after you're done.
-        throw new RuntimeException("Method not implemented");
+
+        TreeSet<Ball> treeSet = new TreeSet<>(new ballComparator());
+        Iterator<Ball> content = iterator();
+        while (content.hasNext())
+            treeSet.add(content.next());
+        return treeSet.iterator();
+
+
     }
 
     /**
@@ -137,4 +154,25 @@ public class Box implements Iterable<Ball> {
         return ballContainer.contains(b);
     }
 
+    /**
+     * The ballComparator class to compare two balls and puts them in
+     * ascending order of their volumes
+     */
+
+    public class ballComparator implements Comparator<Ball> {
+    /**
+     * Compares the volumes of two ball's volumes
+     * Will return negative, zero, or a positive integer based
+     * on if first argument is less than, equal to, or larger than
+     * the second
+     *
+     * @param b1 ball one
+     * @param b2 ball two
+     * @return negative, zero, or a positive integer based on if the
+     * first argument is less than, equal to, or larger than the second
+     */
+        public int compare(Ball b1, Ball b2) {
+            return Double.compare(b1.getVolume(), b2.getVolume());
+        }
+    }
 }
