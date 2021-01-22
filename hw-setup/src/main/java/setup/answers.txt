@@ -4,15 +4,19 @@
 1. Why did Fibonacci fail the testThrowsIllegalArgumentException< test? What (if anything) did
 you have to do to fix it? If you did not have to change anything to fix this issue, explain why.
 
-
+    It says throw an IllegalArgumentException if the input n is negative, so it should be n < 0, not n <= 0.
 
 2. Why did Fibonacci fail the testBaseCase test? What (if anything) did you have to do to fix
 it? If you did not have to change anything to fix this issue, explain why.
 
-
+    The base case says that it should return 1 for the first two indexes of the Fibonacci sequence.
+    Since we start at index 0, the code should be "if (n < 2) return 1", not "if (n <= 2) return 1"
+    because that includes index 2, the third number.
 
 3.Why did Fibonacci fail the testInductiveCase test? What (if anything) did you have to do to
 fix it? If you did not have to change anything to fix this issue, explain why.
 
+    It failed the testInductiveCase because it subtracted the last 2 terms instead of adding them,
+    so all I did was change the minus sign to a plus sign.
 
 
