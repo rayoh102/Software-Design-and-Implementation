@@ -3,15 +3,90 @@
 ###########################################################################
 
 1. Multiplication Pseudocode
+r = p * q:
 
+    set d_p = 0
+
+    set d_q = 0
+
+    set r = 0
+
+    Foreach term, t_p, in p:
+
+        set d_p = degree of t_p
+
+        foreach term, t_q, in q:
+
+            set d_q = degree of t
+
+            if any term in r has the same degree as d_p + d,
+
+                Then increment the t_r by t_p * t_q
+
+                else insert t_p * t_q as a new term with degree as d_p + d
+
+            set d_q = d_q + 1
+
+        set d_q = 0
+
+        set d_p = d_p + 1
 
 
 2. Division Pseudocode
+q = x/y
 
+    Set q = 0
+
+    Set r = x
+
+    while r != 0 and highest degree of r >= highest degree of y
+
+        Set a = first term of r / first term of y
+
+        Set b = highest degree of r - highest degree of y
+
+        Set c = polynomial that has a term with coefficient a and degree b
+
+        Set q = c + q
+
+        Set r = r - (c * y)
 
 
 3. Division Example: (x3+x-1) / (x+1) = x2-x+2
+(x^3+x-1) / (x+1) = x^2-x+2
+x = (x^3+x-1)
+y = (x+1)
+q = 0
+r = copy of x = (x^3+x-1)
+[while r != 0 and highest degree of r >= highest degree of y] 3 != 0 and 3 >= 1 YES
 
+Iteration 1
+	[set a = first term of r / first term of y] a = 1
+	[set b = highest degree of r - highest degree of y] b = 3 - 1 = 2
+	[set c to be polynomial that has a term of degree b with coefficient a] c = x^2
+	[set q = c + q] q = 0 + x^2 = x^2
+	[set r = r - (c * y)]
+	r = x^3+x-1 - (x^2 * (x+1)) = x^3+x-1 - (x^3+x^2) = -x^2+x-1
+	[r != 0 and highest degree of r (2) >= highest degree of y (1)] YES
+
+Iteration 2
+	[set a = leading term of r / leading term of y] a = -1
+	[set b = highest degree of r - highest degree of y] b = 2 - 1 = 1
+	[set c to be a polynomial that has a term of degree b with coefficient a] c = -x
+	[set q = c + q] q = x^2 + (-x) = x^2-x
+	[set r = r - (c * y)]
+	r = -x^2+x-1 - (-x * (x+1)) = -x^2+x+1 - (-x^2-x) = 2*x-1
+	[r != 0 and highest degree of r (1) >= highest degree of y (1)] YES
+
+Iteration 3
+	[set a = leading term of r / leading term of y] a = 2
+	[set b = highest degree of r - highest degree of y] b = 1 - 1 = 0
+	[set c to be a polynomial that has a term of degree b with coefficient a] c = 2
+	[set q = c + q] q = x^2-x + 2 = x^2-x+2
+	[set r = r - (c * y)] r = 2*x-1 - (2 * x+1) = 2*x-1 - (2*x+2) = -3
+	[r != 0 and highest degree of r (0) >= highest degree of y (1)] NO
+
+Final: q = x^2-x+2
 
 
 
@@ -19,15 +94,24 @@
 ###########################################################################
 
 1. Weakened Rep Invariant
-
+In order to satisfy the weakened rep invariant, the constructors with the two parameters should remove the gcd part,
+which will in turn make it more efficient because it will be able to construct RatNum in O(1). The equals and hashCode,
+on the other hand, need to use the gcd method to return true/same hashcode for equivalent rational numbers, which might
+make it more inefficient. toString should also use gcd so it meets the spec, but this will also make it take longer
+because the gcd contains a loop.
 
 
 2. Alternate add, sub, mul, div
-
+It does not meet the specification because there is no modify clause that states that this is modified by the method.
+It also fails the class specification because it states that RatNum should represent an immutable rational number,
+but the given implementation of the method causes it to mutate.
 
 
 3. Constructor checkReps
-
+In the case of RatNum, it is ok to call checkRep only at the end of the constructor because there is no mutator
+method in the class. The instance variables of the class are final and initialized once, and all the operations/methods
+return a new RatNum object without modifying any of the original objects. Calling checkRep at the end of the
+constructor is enough to verify that the rep invariant holds.
 
 
 
@@ -35,19 +119,27 @@
 ###########################################################################
 
 1. Calls to checkRep in RatTerm
-
+I included calls to checkRep at the end of the constructor because there aren't any mutator methods within the
+RatTerm class. All the instance variables are declared as final and initialized only once, and all the methods return a
+new RatTerm object without modifying any of the original objects. Calling checkRep once is enough to ensure that
+the rep invariant holds.
 
 
 2. Weakened Rep Invariant
-
+If the class was implemented with the new rep invariant, I would change isZero and cancel the coeff and compare
+the equality to the original coeff. This will make it have more code complexity because it uses multiple method calls
+to find whether or not the coeff is zero. toString should also be used to add a check of isZero and then add 0 to the
+output if isZero is true. Again, since I am adding another check, this adds to the code complexity.
 
 
 3. Alternate Rep Invariant
-
+If the class was implemented with the new rep invariant I would change the constructor so that
+when taking in NaN with any exponent it would be NaN rather than NaN*x^expt.
 
 
 4. Preferred Invariants
-
+I believe both sets of additional RatTerm invariants are fine because the rep invariants allow us to avoid dealing
+with different representations of terms such as 0 times x with any exponent when performing mathematical operations.
 
 
 
@@ -55,10 +147,13 @@
 ###########################################################################
 
 1. Calls to checkRep in RatPoly
-
+I included the checkRep calls at the end of the constructors and also some methods because there were some operations
+that mutated the rep invariant, so I had to implement checkRep to ensure that the rep invariant is maintained.
 
 
 2. Alternate Representation
-
+The advantages of representing RatPoly like this is that RatPoly can be implemented without RatTerms when using the
+alternate implementation. However, I believe the disadvantage is the inefficiency of using the two separate lists
+to access the exponents and terms, so I believe the original implementation is better.
 
 
