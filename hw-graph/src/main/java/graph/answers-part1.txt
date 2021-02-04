@@ -9,54 +9,70 @@
 
     Abstraction Function:
 
+    AF(this) = Queue<Integer> so
+   	queue = entries = [] if there are no elements in entries
+   	queue = entries = [a1, a2, ..., a_k]
+    K is the number of elements in the series
 
 
     Representation Invariant:
 
-
+    Entries both has no nulls and != null
 
 
     ### IntQueue2
 
     Abstraction Function:
 
-
+    AF(this) = Queue<Integer> so
+   	entries = [a1, a2, ..., a_k] front = I and size = n
+   	queue = [] if the size == 0
+   	queue = [a_(i+1), ..., a_(i+n)] if the front + size <= |entries|
+    queue = [a_(i+1), ..., a_k, a1, ..., a_(k-i)] if the front + size <= |entries
 
     Representation Invariant:
 
-
+    size >= 0 & entries != null & front >= 0 and front <= |entries| - 1
 
 
 2. Group the snapshots of IntQueue2's internal state into groups that have the same abstract state.
 
-
+    A, D, and G = [1, 2]
+   	B and H = [2, 3, 4]
+    C and F = [1, 2, 3]
 
 
 3. For each signature below, state and justify in 1-2 sentences (per part) whether the method or constructor
 could possibly expose the representation, given the information available. Explain any assumptions you made.
 
     a. `public int solveEquations(int x, int y, int z)`
-
+        No potential representation exposure because the method only takes and returns primitive data type instead of
+        mutable objects
 
 
     b. `public String[] decode(boolean slowly)`
-
+        Possible representation exposure because the return type is String[] and the array is mutable
 
 
     c. `private Date myBirthday()`
+        The method could possibly contain representation exposure if the Date is mutable and it returns a
+   	    Date that isn't the copy of the original Date
 
 
 
     d. `public String toString()`
-
+        No potential representation exposure because it returns an immutable String
 
 
     e. `public Iterator<Integer> elements()`
-
+        The method could have representation exposure if the returned iterator references the original collection
+        and allows for the remove method, because it allows for the client to remove integers in the collection
+        while iterating.
 
 
     f. `public Deck(List<Card> cards)`
-
+        Could contain representation exposure if the method doesn't make a copy of the argument cards on the way
+        in because the client can change the cards afterwards and invalidate the Deck's representation invariant.
 
 
 
