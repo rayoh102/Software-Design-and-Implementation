@@ -84,7 +84,11 @@ interface to a graph. If your design includes multiple classes or interfaces, ex
 included each one; if not, explain whether you considered additional classes and why you decided
 not to include them.
 
-
+I included operations such as containsNode so I could ensure that duplicate nodes don't exist in the graph,
+while also having simple operations crucial to actually creating the graph such as addNode and addEdge.
+In order for the client to actually see the graph, operations such as entrySet and toString are needed.
+Operations that provide the client with information about the graph, such as getNodes, getChildren, isEmpty,
+and size are also included. In case the client wanted to remove edges I also included removeEdge as another operation.
 
 
 ## Section 3
