@@ -1,0 +1,12 @@
+# Tests if a node can be added to the graph
+
+# Create a graph
+CreateGraph oneNodeGraph
+
+# Add node
+AddNode oneNodeGraph a
+
+# Print all the nodes in the graph and the outgoing edges from a
+ListNodes oneNodeGraph
+ListChildren oneNodeGraph a
+

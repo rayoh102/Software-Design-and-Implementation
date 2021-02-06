@@ -97,5 +97,7 @@ and size are also included. In case the client wanted to remove edges I also inc
 What was your testing strategy for this assignment? How do your script tests and JUnit tests
 differ from each other (if they do), and why?
 
-
+My testing strategy utilized a lot of the hints section said about using the 0, 1, 2 analysis to come up with
+different combinations of graphs, nodes and edges. I had tests such as empty graph, one node graph, two node with
+one edge graph, and so on.
 

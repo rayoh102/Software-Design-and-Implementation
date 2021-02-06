@@ -1,0 +1,13 @@
+# Same as twoNodeGraph.test, but reverse the order of node adding to test if it prints out in alphabetical order
+
+# Create a graph
+created graph twoNodesGraphAlphabetical
+
+# Add two nodes in reverse alphabetical order
+added node b to twoNodesGraphAlphabetical
+added node a to twoNodesGraphAlphabetical
+
+# Print the nodes in the graph, the outgoing edges from a and the outgoing edges from b
+twoNodesGraphAlphabetical contains: a b
+the children of a in twoNodesGraphAlphabetical are:
+the children of b in twoNodesGraphAlphabetical are:

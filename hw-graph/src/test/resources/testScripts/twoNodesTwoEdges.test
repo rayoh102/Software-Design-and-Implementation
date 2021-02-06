@@ -1,0 +1,17 @@
+# Tests adding two nodes, two edges between the two nodes to graph.
+
+# Create a graph
+CreateGraph twoNodesTwoEdges
+
+# Add two nodes
+AddNode twoNodesTwoEdges a
+AddNode twoNodesTwoEdges b
+
+# Add two edges
+AddEdge twoNodesTwoEdges a b AB
+AddEdge twoNodesTwoEdges b a BA
+
+# Print the nodes in the graph, the outgoing edges from a and the outgoing edges from b
+ListNodes twoNodesTwoEdges
+istChildren twoNodesTwoEdges a
+ListChildren twoNodesTwoEdges b

@@ -1,0 +1,17 @@
+# Tests adding two nodes, two edges between the two nodes to graph.
+
+# Create a graph
+created graph twoNodesTwoEdges
+
+# Add two nodes
+added node a to twoNodesTwoEdges
+added node b to twoNodesTwoEdges
+
+# Add two edges
+added edge AB from a to b in twoNodesTwoEdges
+added edge BA from b to a in twoNodesTwoEdges
+
+# Print the nodes in the graph, the outgoing edges from a and the outgoing edges from b
+twoNodesTwoEdges contains: a b
+the children of a in twoNodesTwoEdges are: b(AB)
+the children of b in twoNodesTwoEdges are: a(BA)
