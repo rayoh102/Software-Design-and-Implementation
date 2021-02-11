@@ -29,15 +29,15 @@ public class GraphTest {
     private final String EDGE_BA = "BA";
     private final String EDGE_BB = "BB";
 
-    private Graph<String, String> graph;
+    private Graph graph;
     private Set<String> nodes;
-    private Set<labelEdge<String, String>> edges;
+    private Set<labelEdge> edges;
 
     @Before
     public void setUp() throws Exception {
-        graph = new Graph<String, String>();
+        graph = new Graph();
         nodes = new HashSet<String>();
-        edges = new HashSet<labelEdge<String, String>>();
+        edges = new HashSet<labelEdge>();
     }
 
     @Test(timeout = TIMEOUT)
@@ -256,7 +256,7 @@ public class GraphTest {
     @Test(timeout = TIMEOUT)
     public void getChildrenNodeAAfterAddSameEdgeOnNodeATest() {
         addSameEdgeOnNodeATest();
-        edges.add(new labelEdge<String, String>("a", "AA"));
+        edges.add(new labelEdge("a", "AA"));
         assertEquals(edges, graph.getChildren(NODE_A));
     }
 
@@ -275,7 +275,7 @@ public class GraphTest {
     @Test(timeout = TIMEOUT)
     public void removeSameEdgeOnNodeATest() {
         addSameEdgeOnNodeATest();
-        assertEquals(new labelEdge<String, String>("a", "AA"),
+        assertEquals(new labelEdge("a", "AA"),
                 graph.removeEdge(NODE_A, NODE_A, EDGE_AA));
     }
 
@@ -312,7 +312,7 @@ public class GraphTest {
     @Test(timeout = TIMEOUT)
     public void getChildrenNodeAAfterAddOneEdgeBetweenNodeAAndBTest() {
         addOneEdgeBetweenTwoNodesTest();
-        edges.add(new labelEdge<String, String>("b", "AB"));
+        edges.add(new labelEdge("b", "AB"));
         assertEquals(edges, graph.getChildren(NODE_A));
     }
 
@@ -343,14 +343,14 @@ public class GraphTest {
     @Test(timeout = TIMEOUT)
     public void getChildrenNodeAAfterAddingSameEdgeTest() {
         addSameEdgeAfterAddOneEdgeBetweenTwoNodesTest();
-        edges.add(new labelEdge<String, String>("b", "AB"));
+        edges.add(new labelEdge("b", "AB"));
         assertEquals(edges, graph.getChildren(NODE_A));
     }
 
     @Test(timeout = TIMEOUT)
     public void getChildrenNodeBAfterAddSameEdgeTest() {
         getChildrenNodeAAfterAddingSameEdgeTest();
-        assertEquals(new HashSet<labelEdge<String, String>>(),
+        assertEquals(new HashSet<labelEdge>(),
                 graph.getChildren(NODE_B));
     }
 
@@ -363,14 +363,14 @@ public class GraphTest {
     @Test(timeout = TIMEOUT)
     public void getChildrenNodeAAfterAddTwoInverseDirectionsEdgesTest() {
         addTwoInverseDirectionsEdgesBetweenNodeAAndBTest();
-        edges.add(new labelEdge<String, String>("b", "AB"));
+        edges.add(new labelEdge("b", "AB"));
         assertEquals(edges, graph.getChildren(NODE_A));
     }
 
     @Test(timeout = TIMEOUT)
     public void getChildrenNodeBAfterAddTwoInverseDirectionsEdgesTest() {
         addTwoInverseDirectionsEdgesBetweenNodeAAndBTest();
-        edges.add(new labelEdge<String, String>("a", "BA"));
+        edges.add(new labelEdge("a", "BA"));
         assertEquals(edges, graph.getChildren(NODE_B));
     }
 
@@ -386,16 +386,16 @@ public class GraphTest {
     @Test(timeout = TIMEOUT)
     public void getChildrenOfNodeAAfterMakeCompleteTwoNodeGraphTest() {
         makeCompleteTwoNodeGraphTest();
-        edges.add(new labelEdge<String, String>("a", "AA"));
-        edges.add(new labelEdge<String, String>("b", "AB"));
+        edges.add(new labelEdge("a", "AA"));
+        edges.add(new labelEdge("b", "AB"));
         assertEquals(edges, graph.getChildren(NODE_A));
     }
 
     @Test(timeout = TIMEOUT)
     public void getChildrenOfNodeBAftermakeCompleteTwoNodeGraphTest() {
         makeCompleteTwoNodeGraphTest();
-        edges.add(new labelEdge<String, String>("a", "BA"));
-        edges.add(new labelEdge<String, String>("b", "BB"));
+        edges.add(new labelEdge("a", "BA"));
+        edges.add(new labelEdge("b", "BB"));
         assertEquals(edges, graph.getChildren(NODE_B));
     }
 

@@ -14,21 +14,21 @@ import graph.*;
 
 public class labelEdgeTest {
     private static final int TIMEOUT = 2000;
-    private labelEdge<String, String> lEdge;
+    private labelEdge lEdge;
 
     @Before
     public void setUp() throws Exception {
-        lEdge = new labelEdge<String, String>("b", "AB");
+        lEdge = new labelEdge("b", "AB");
     }
 
     @Test(timeout = TIMEOUT, expected = IllegalArgumentException.class)
     public void makeEdgeWithNullDestinationTest() {
-        new labelEdge<String, String>(null, "AB");
+        new labelEdge(null, "AB");
     }
 
     @Test(timeout = TIMEOUT, expected = IllegalArgumentException.class)
     public void makeEdgeWithNullLabelTest() {
-        new labelEdge<String, String>("b", null);
+        new labelEdge("b", null);
     }
 
     @Test(timeout = TIMEOUT)
@@ -53,12 +53,12 @@ public class labelEdgeTest {
 
     @Test(timeout = TIMEOUT)
     public void equalsOnhDiffLabelEdgeTest() {
-        assertFalse(lEdge.equals(new labelEdge<String, String>("a", "AB")));
+        assertFalse(lEdge.equals(new labelEdge("a", "AB")));
     }
 
     @Test(timeout = TIMEOUT)
     public void equalSameLabelEdgeTest() {
-        assertTrue(lEdge.equals(new labelEdge<String, String>("b", "AB")));
+        assertTrue(lEdge.equals(new labelEdge("b", "AB")));
     }
 
     @Test(timeout = TIMEOUT)
@@ -67,28 +67,4 @@ public class labelEdgeTest {
         assertEquals(hc, lEdge.hashCode());
     }
 
-    @Test(timeout = TIMEOUT)
-    public void compareToLexicographicallyGreaterDestinationTest() {
-        assertTrue(lEdge.compareTo(new labelEdge<String, String>("c", "AB")) < 0);
-    }
-
-    @Test(timeout = TIMEOUT)
-    public void compareToLexicographicallyLessDestinationTest() {
-        assertTrue(lEdge.compareTo(new labelEdge<String, String>("a", "AB")) > 0);
-    }
-
-    @Test(timeout = TIMEOUT)
-    public void compareToLexicographicallyGreaterLabelTest() {
-        assertTrue(lEdge.compareTo(new labelEdge<String, String>("b", "BB")) < 0);
-    }
-
-    @Test(timeout = TIMEOUT)
-    public void compareToLexicographicallyLessLabelTest() {
-        assertTrue(lEdge.compareTo(new labelEdge<String, String>("b", "AA")) > 0);
-    }
-
-    @Test(timeout = TIMEOUT)
-    public void compareToSameLabelEdgeTest() {
-        assertTrue(lEdge.compareTo(new labelEdge<String, String>("b", "AB")) == 0);
-    }
 }

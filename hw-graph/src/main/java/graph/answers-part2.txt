@@ -38,11 +38,14 @@ above, be sure to list its advantages and disadvantages, too.
 1. Describe any new tests you added and why you added them, or why you feel that your original
 tests alone are sufficient.
 
-
+    I didn't add any tests because I felt that my tests were sufficient to test all my methods. I have
+    many tests that test my basic operations, and I believe my methods effectively isolate and test what they
+    need to test. I'm not too sure what else I should add.
 
 
 2. Did you make any changes to your specifications as you were implementing your Graph? (yes/no)
 If yes, describe your changes and why you made them.
 
-
+    I just made some very simple changes to make the specification a bit more clear, other than that, no, I
+    didn't really change the spec.
 
