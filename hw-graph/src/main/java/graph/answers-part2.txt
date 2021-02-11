@@ -16,14 +16,18 @@ A few examples of possible Graph representations:
 representations listed above (for example, in terms of runtime complexity, space
 complexity, or ease of implementation).
 
-
+    Collection of edges runs in O(1) time complexity when it adds a new edge. Similarly, an adjacency list also runs
+    in O(1) time complexity when adding new vertexes or adding new edges, as does the Adjacency matrix when adding or
+    removing edges.
 
 
 2. In two to three sentences, describe the representation you chose and explain why you
 chose it. If you chose to use a different representation than one of the three we described
 above, be sure to list its advantages and disadvantages, too.
 
-
+    I made it so that each node's outgoing edges would be represented as a treeset while mapping each node to its set
+    of edges using a treemap, because TreeMap guarantees a O(logn) performance for operations such as searching,
+    inserting, and deletion. Treemap is also more space efficient and TreeSet can be used to sort alphabetically.
 
 
 ## Section 4
