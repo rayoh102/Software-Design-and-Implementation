@@ -8,10 +8,17 @@ package graph;
  *
  */
 
-public class labelEdge <T, E extends Comparable<E>> implements Comparable<labelEdge<T, E>> {
+public class labelEdge {
 
-    private final T dest;   // destination of this edge
-    private final E label;  // label of this edge
+    // Rep invariant:
+    //     dest != null && label != null
+
+    // Abstract function:
+    //     AF(this) = a labeled edge without the starting point le such that le.destination = this.destination
+    //     and le.label = this.label
+
+    private final String destination;   // destination of this edge
+    private final String label;  // label of this edge
 
 
     /**
@@ -20,29 +27,17 @@ public class labelEdge <T, E extends Comparable<E>> implements Comparable<labelE
      * @param d, the destination of the edge
      * @param l, the label of the edge
      * @spec.requires d, l != null
-     * @spec.effects constructs a labeled edge with the destination <var>d</var> and the label <var>l</var>
+     * @spec.effects constructs a labeled edge with the destination d and the label l
      */
-    public labelEdge(T d, E l) {
-        if (d == null || l == null)
-            throw new IllegalArgumentException("Arguments cannot be null.");
+    public labelEdge(String d, String l) {
 
-        dest = d;
+        //checks if destination or label is null
+        if (d == null || l == null)
+            throw new IllegalArgumentException();
+
+        destination = d;
         label = l;
         checkRep();
-    }
-
-
-    /**
-     * Compares the order of the object with the specified object. It will produce negative, zero, or positive value
-     * if the object is less than, equal to, or greater than the specified object.
-     *
-     * @param le, the object to be compared
-     * @return a negative, zero, or a positive value if the object is less than, equal to, or greater than
-     * the specified object
-     */
-    @Override
-    public int compareTo(labelEdge<T, E> le) {
-        throw new RuntimeException();
     }
 
 
@@ -54,7 +49,13 @@ public class labelEdge <T, E extends Comparable<E>> implements Comparable<labelE
      */
     @Override
     public boolean equals(Object o) {
-        throw new RuntimeException();
+        checkRep();
+        if (!(o instanceof labelEdge))
+            return false;
+
+        labelEdge le = (labelEdge) o;
+        checkRep();
+        return destination.equals(le.destination) && label.equals(le.label);
     }
 
 
@@ -63,8 +64,9 @@ public class labelEdge <T, E extends Comparable<E>> implements Comparable<labelE
      *
      * @return the destination of the edge
      */
-    public T getDest() {
-        throw new RuntimeException();
+    public String getDest() {
+        checkRep();
+        return destination;
     }
 
     /**
@@ -72,8 +74,9 @@ public class labelEdge <T, E extends Comparable<E>> implements Comparable<labelE
      *
      * @return the label of the edge
      */
-    public E getLabel() {
-        throw new RuntimeException();
+    public String getLabel() {
+        checkRep();
+        return label;
     }
 
     /**
@@ -82,8 +85,11 @@ public class labelEdge <T, E extends Comparable<E>> implements Comparable<labelE
      * @return the string representation of the edge
      */
     @Override
-    public String toString() {
-        throw new RuntimeException();
+    public java.lang.String toString() {
+        checkRep();
+        java.lang.String result = destination.toString() + "(" + label.toString() + ")";
+        checkRep();
+        return result;
     }
 
     /**
@@ -93,7 +99,8 @@ public class labelEdge <T, E extends Comparable<E>> implements Comparable<labelE
      */
     @Override
     public int hashCode() {
-        throw new RuntimeException();
+        checkRep();
+        return destination.hashCode() + label.hashCode();
     }
 
 
@@ -101,6 +108,10 @@ public class labelEdge <T, E extends Comparable<E>> implements Comparable<labelE
      * Checks if rep invariant holds.
      */
     private void checkRep(){
-        throw new RuntimeException();
+        if (destination == null)
+            throw new RuntimeException("Destination cannot be null.");
+
+        if (label == null)
+            throw new RuntimeException("Label cannot be null.");
     }
 }
