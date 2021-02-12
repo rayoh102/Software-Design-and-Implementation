@@ -14,9 +14,12 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.Rule;
+import org.junit.rules.Timeout;
 
 /**
  * This class has test cases that test the implementation of the Graph class
+ * @Rule public Timeout globalTimeout = Timeout.seconds(10); // 10 seconds max per method tested
  */
 public class GraphTest {
     private static final int TIMEOUT = 2000;

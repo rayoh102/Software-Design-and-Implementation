@@ -8,8 +8,12 @@ import org.junit.Before;
 import org.junit.Test;
 import graph.*;
 
+import org.junit.Rule;
+import org.junit.rules.Timeout;
+
 /**
  * This class contains test cases that test the implementation of labelEdge class
+ * @Rule public Timeout globalTimeout = Timeout.seconds(10); // 10 seconds max per method tested
  */
 
 public class labelEdgeTest {
