@@ -1,10 +1,4 @@
-### Written Answers: 21/26
-
-#### 0.1
-Missing Invariant (-1)
-
-#### 0.2
-Missing Invatiant (-1)
+### Written Answers: 23/26
 
 #### 2.2
 In part 2b, the changes required are limited to the following methods:
