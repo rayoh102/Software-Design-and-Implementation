@@ -1,0 +1,8 @@
+# Tests if we can load a graph and find a path
+
+# Load Graph
+LoadGraph custom sampleData.tsv
+
+# Find a short path
+FindPath custom Hero1 Hero3
+

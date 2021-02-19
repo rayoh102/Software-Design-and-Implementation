@@ -1,0 +1,7 @@
+# Tests if underscore inputs are properly converted to spaces
+
+# Load Graph
+LoadGraph custom sampleData.tsv
+
+# Find a short path
+FindPath custom Hero6 Hero3

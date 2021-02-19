@@ -1,0 +1,7 @@
+# Tests if we can find a shortest path that is multiple hops
+
+# Load Graph
+LoadGraph custom sampleData.tsv
+
+# Find path (should be two hops)
+FindPath custom Hero1 Hero7

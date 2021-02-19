@@ -1,0 +1,9 @@
+# Tests if we can find a shortest path that is multiple hops
+
+# Load Graph
+loaded Graph custom
+
+# Find path (should be two hops)
+path from BigHero to OtherHero:
+Hero1 to Hero4 via B1
+Hero4 to Hero8 via C1

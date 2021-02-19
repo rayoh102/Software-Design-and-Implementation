@@ -1,0 +1,7 @@
+# Tests if, given multiple paths, we return the shortest one
+
+# Load Graph
+LoadGraph custom sampleData.tsv
+
+# Find path (shortest should be single hop, longer one would be three hops)
+FindPath custom Hero1 Hero5

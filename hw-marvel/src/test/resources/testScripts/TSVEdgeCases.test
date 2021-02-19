@@ -1,0 +1,20 @@
+# Tests if edge cases like invalid character or no path are handled properly in a custom TSV
+
+# Load Graph
+LoadGraph custom sampleData.tsv
+
+# Find an invalid start char
+
+FindPath custom Her1 Hero3
+
+# Find an invalid end char
+
+FindPath custom Hero1 Her6
+
+# Find two invalid chars
+
+FindPath custom DNE1 DNE2
+
+# Find valid chars with no path
+
+FindPath custom Hero7 Hero4

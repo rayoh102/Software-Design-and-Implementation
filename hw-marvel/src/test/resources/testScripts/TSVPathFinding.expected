@@ -1,0 +1,9 @@
+# Tests if we can load a graph and find a path
+
+# Load Graph
+loaded Graph custom
+
+# Find a short path
+path from Hero1 to Hero3:
+Hero1 to Hero3 via B2
+

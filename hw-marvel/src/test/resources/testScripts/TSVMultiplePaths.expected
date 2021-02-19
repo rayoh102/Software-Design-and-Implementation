@@ -1,0 +1,8 @@
+# Tests if, given multiple paths, we return the shortest one
+
+# Load Graph
+loaded Graph custom
+
+# Find path (shortest should be single hop, longer one would be three hops)
+path from Hero1 to Hero5:
+Hero1 to Hero5 via C2

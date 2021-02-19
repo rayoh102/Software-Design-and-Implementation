@@ -1,0 +1,8 @@
+# Tests if underscore inputs are properly converted to spaces
+
+# Load Graph
+loaded Graph custom
+
+# Find a short path
+path from Hero6 to Hero3:
+Hero6 to Hero3 via A3
