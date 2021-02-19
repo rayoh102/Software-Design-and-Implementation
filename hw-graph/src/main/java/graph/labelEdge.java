@@ -8,54 +8,71 @@ package graph;
  *
  */
 
-public class labelEdge {
+public class labelEdge<E, T> {
 
     // Rep invariant:
-    //     dest != null && label != null
+    //     startNode != null && endNode != null && startNode != null
 
     // Abstract function:
-    //     AF(this) = a labeled edge without the starting point le such that le.destination = this.destination
-    //     and le.label = this.label
+    //     An edge from startNode to endNode containing the information in label
 
-    private final String destination;   // destination of this edge
-    private final String label;  // label of this edge
+    private E start;
+    private E end;   // destination of this edge
+    private T label;  // label of this edge
+
+    /**
+     * Used to check if RI holds
+     */
+    private final static boolean check = false;
+
+
 
 
     /**
      * Creates a labeled edge.
      *
-     * @param d, the destination of the edge
-     * @param l, the label of the edge
-     * @spec.requires d, l != null
-     * @spec.effects constructs a labeled edge with the destination d and the label l
+     * @param start - the beginning of the edge
+     * @param end - the destination of the edge
+     * @param label - the label of the edge
+     * @throws IllegalArgumentException if the label or nodes are null
+     * @spec.effects constructs a new edge e with e.start = start,
+     * e.end = end, and e.label = label
      */
-    public labelEdge(String d, String l) {
-
-        //checks if destination or label is null
-        if (d == null || l == null)
-            throw new IllegalArgumentException();
-
-        destination = d;
-        label = l;
+    public labelEdge(E start, E end, T label) {
+        if(label == null || start == null || end == null) {
+            throw new IllegalArgumentException("No input can be null");
+        }
+        this.start = start;
+        this.end = end;
+        this.label = label;
         checkRep();
     }
 
 
     /**
-     * Returns true if the object o represent the same edge
+     * Test for equality between edges
      *
-     * @param o, the object to be compared
-     * @return true if o represents the same destination and label as the edge
+     * @param o - other edge we are comparing equality with
+     * @return boolean determining if other edge o is equal to this.edge
      */
     @Override
     public boolean equals(Object o) {
-        checkRep();
-        if (!(o instanceof labelEdge))
+        if(!(o instanceof labelEdge)) {
             return false;
+        }
+        labelEdge e = (labelEdge) o;
+        return this.start  == e.start && this.end == e.end && this.label == e.label;
+    }
 
-        labelEdge le = (labelEdge) o;
+
+    /**
+     * returns the start of edge
+     *
+     * @return the node the edge comes from
+     */
+    public E getStart() {
         checkRep();
-        return destination.equals(le.destination) && label.equals(le.label);
+        return this.start;
     }
 
 
@@ -64,9 +81,9 @@ public class labelEdge {
      *
      * @return the destination of the edge
      */
-    public String getDest() {
+    public E getDest() {
         checkRep();
-        return destination;
+        return this.end;
     }
 
     /**
@@ -74,44 +91,31 @@ public class labelEdge {
      *
      * @return the label of the edge
      */
-    public String getLabel() {
+    public T getLabel() {
         checkRep();
-        return label;
+        return this.label;
     }
 
-    /**
-     * Returns the string representation of the edge.
-     *
-     * @return the string representation of the edge
-     */
-    @Override
-    public java.lang.String toString() {
-        checkRep();
-        java.lang.String result = destination.toString() + "(" + label.toString() + ")";
-        checkRep();
-        return result;
-    }
 
     /**
-     * Return the hash code of this edge.
+     * Hashing function
      *
-     * @return the hash code of this edge
+     * @return an int determining the hashcode of the edge
      */
     @Override
     public int hashCode() {
-        checkRep();
-        return destination.hashCode() + label.hashCode();
+        return 13 * start.hashCode() + 37 * end.hashCode() + 61 * label.hashCode();
     }
 
 
     /**
      * Checks if rep invariant holds.
      */
-    private void checkRep(){
-        if (destination == null)
-            throw new RuntimeException("Destination cannot be null.");
-
-        if (label == null)
-            throw new RuntimeException("Label cannot be null.");
+    private void checkRep() {
+        if(check) {
+            assert start != null;
+            assert end != null;
+            assert label != null;
+        }
     }
 }

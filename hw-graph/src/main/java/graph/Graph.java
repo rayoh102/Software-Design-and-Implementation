@@ -1,36 +1,31 @@
 package graph;
 
-import java.util.TreeMap;
-import java.util.TreeSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * <b>Graph</b> represents a mutable, directed, labeled graph.
  * <p>
- * @spec.specfield nodes : Set
- * @spec.specfield outgoingEdges : Collection
+ * @spec.specfield nodes : set // nodes in the graph
+ * @spec.specfield set // edges in the graph
  */
 
-public class Graph  {
+public class Graph <E, T> {
     // Rep invariant:
-    //     Graph != null
-    //     Every node and every edge in Graph aren't null and Graph must contain node n if that node is
-    //     included in any edge
+    //     In Map graph we have a mapping from Node -> edges, where edges contains edges the node points to.
+    //     graph != null && all Node in graph != null && all edges in graph != null && all e in edges != null
 
     // Abstract function:
-    //     AF(this) = directed graph g such that
-    //     if a is a node, then a=[], ...} if a has no outgoing edges
-    //     {a=[b(e), c(f), ...], b=[...], c=[...]} o.w.
-    //     where letters outside the parentheses - b, c, etc. - are destinations of node a's edges and the letters
-    //     inside the parentheses - e, f, etc. - are the edge's labels
+    //     graph = {} for an empty graph
+    //     Each node N in graph.keySet() is a node in the graph
+    //     The set of edges each N maps to tells us the nodes that N connects to and the labels of these edges.
+    //     For instance, say we have a node N0 whose eSet is {E1}, then there exists an edge E1 with startNode = N0.
 
 
     // checkRep variable
     private final static boolean check = false;
 
     // Graph
-    private final Map<String, TreeSet<labelEdge>> Graph;
+    private Map<E, Set<labelEdge<E, T>>> Graph;
 
 
     /**
@@ -39,80 +34,90 @@ public class Graph  {
      * @spec.effects constructs an empty graph
      */
     public Graph() {
-        Graph = new TreeMap<String, TreeSet<labelEdge>>();
+        Graph = new HashMap<>();
         checkRep();
     }
 
+
+
     /**
-     * If its not already present, adds the node n to the graph
+     * Adds the node passed in to the graph if it doesn't exist
      *
-     * @param n, the node to be added
-     * @spec.modifies this.nodes
-     * @spec.effects adds node n to this.nodes if not already present
-     * @return true if this graph did not already contain node n
+     * @spec.requires an identical node doesn't already exist
+     * @param n - data in new node
+     * @throws IllegalArgumentException if node is null
+     * @spec.modifies graph
+     * @spec.effects creates a new node and adds it to the graph
      */
-    public boolean addNode(String n) {
-        checkRep();
-
-        if (n == null)
-            throw new IllegalArgumentException();
-
-        boolean addedNode = false;
-
-        if (!(Graph.containsKey(n))) {
-            Graph.put(n, new TreeSet<labelEdge>());
-            addedNode = true;
+    public void addNode(E n) {
+        if(n == null) {
+            throw new IllegalArgumentException("Node can't be null");
         }
-
+        Graph.put(n, new HashSet<>());
         checkRep();
-        return addedNode;
     }
 
+
     /**
-     * If both the nodes "start" and "end" already exists in graph and the edge from "start"
-     * to "end" with the label "label" isn't already within the graph, it will add the edge
-     * from "start" to "end" with the label "label"
+     * Adds an edge between nodes to the graph if it doesn't already exist
      *
+     * @spec.requires an edge e with e.startNode = startNode, e.endNode = endNode, and e.label = label doesn't
+     * already exist in the graph
      * @param start, the edges starting point
      * @param end, the edges ending point
      * @param label, the edges label
-     * @spec.requires start, end, label != null
-     * @spec.modifies this.outgoingEdges
-     * @spec.effects Adds the edge from "start" to "end" with the label "label" to the graph
-     * if the same edge isn't already in the graph
-     * @throws IllegalArgumentException if either the node "start" or "end" isn't within this.nodes
-     * @return true if the graph didn't already contain the edge from "start" to "end"
-     * with label "label"
+     * @throws IllegalArgumentException if any parameter is null or a node doesn't exist in the graph
+     * @spec.modifies graph
+     * @spec.effects creates a new edge and adds it to the graph
      */
-    public boolean addEdge(String start, String end, String label) {
-        checkRep();
-
-        //throws null exception of the nodes or label is null
-        if (start == null || end == null || label == null)
-            throw new IllegalArgumentException();
-
-        // checks if the nodes are in the graph
-        if (!(Graph.containsKey(start)))
-            throw new IllegalArgumentException();
-
-        if (!(Graph.containsKey(end)))
-            throw new IllegalArgumentException();
-
-        boolean addedEdge = false;
-
-        TreeSet<labelEdge> startingNodesEdges = Graph.get(start);
-        labelEdge e = new labelEdge(end, label);
-
-
-        // check if the edge already exists in the graph
-        if (!(startingNodesEdges.contains(e))) {
-            startingNodesEdges.add(e);
-            addedEdge = true;
+    public void addEdge(E start, E end, T label) {
+        if(start == null || end == null || label == null) {
+            throw new IllegalArgumentException("No input can be null");
         }
-
+        if(!containsNode(start)) {
+            throw new IllegalArgumentException("Start Node must exist in graph");
+        }
+        if(!containsNode(end)) {
+            throw new IllegalArgumentException("End Node must exist in graph");
+        }
+        labelEdge<E, T> newEdge = new labelEdge<>(start, end, label);
+        if(!Graph.get(start).contains(newEdge)) {
+            Graph.get(start).add(newEdge);
+        }
         checkRep();
-        return addedEdge;
     }
+
+
+
+    /**
+     * Removes the node from the graph as well as any edges that were associated the node
+     *
+     * @param node - node to be removed
+     * @throws IllegalArgumentException if node is null or node doesn't exist in graph
+     * @spec.modifies graph
+     * @spec.effects removes specified node from graph
+     */
+    public void removeNode(String node) {
+        if(node == null) {
+            throw new IllegalArgumentException("Node can't be null");
+        }
+        if(!Graph.containsKey(node)) {
+            throw new IllegalArgumentException("Node doesn't exist in graph");
+        }
+        checkRep();
+        for(E n : Graph.keySet()) {
+            Set<labelEdge<E, T>> edgeSet = Graph.get(n);
+            for(labelEdge<E, T> e : edgeSet) {
+                if(e.getDest().equals(node)) {
+                    edgeSet.remove(e);
+                }
+            }
+        }
+        Graph.remove(node);
+        checkRep();
+    }
+
+
 
     /**
      * Return true if the node n is present within the graph.
@@ -121,7 +126,7 @@ public class Graph  {
      * @spec.requires n != null
      * @return true if the node n is present within this.nodes
      */
-    public boolean containsNode(String n) {
+    public boolean containsNode(E n) {
         checkRep();
 
         if (n == null)
@@ -136,30 +141,29 @@ public class Graph  {
      *
      * @return the set of nodes
      */
-    public Set<String> getNodes() {
+    public Set<E> getNodes() {
         checkRep();
-        return new TreeSet<String>(Graph.keySet());
+        return new HashSet<>(Graph.keySet());
     }
 
-    /**
-     * Returns the number of nodes within the graph
-     *
-     * @return the number of nodes within the graph
-     */
-    public int size() {
-        checkRep();
-        return Graph.size();
-    }
 
     /**
-     * Returns true if graph is empty
+     * Gets the edges from a specific node in the graph
      *
-     * @return true if the graph is empty
+     * @param node - the node whose edges we want to get
+     * @return the collection of edges in the graph from a node
      */
-    public boolean isEmpty() {
+    public List<labelEdge<E, T>> getEdges(E node) {
         checkRep();
-        return Graph.isEmpty();
+        if(node == null) {
+            throw new IllegalArgumentException("Node can't be null");
+        }
+        if(!containsNode(node)) {
+            throw new IllegalArgumentException("Node must exist in graph");
+        }
+        return new ArrayList<>(Graph.get(node));
     }
+
 
     /**
      * Returns a set of outgoing edges of the node n.
@@ -169,7 +173,7 @@ public class Graph  {
      * @return a set of outgoing edges of the node n
      * @throws IllegalArgumentException if the node n isn't present in this.nodes
      */
-    public Set<labelEdge> getChildren(String n) {
+    public Set<E> getChildren(E n) {
         checkRep();
 
         //throws IllegalArgumentException if node is null
@@ -180,83 +184,78 @@ public class Graph  {
         if (!(containsNode(n)))
             throw new IllegalArgumentException();
 
-        TreeSet<labelEdge> edgesOfN = Graph.get(n);
-        checkRep();
-        return new TreeSet<labelEdge>(edgesOfN);
-    }
-
-    /**
-     * Returns the number of edges from two nodes.
-     *
-     * @param node1 the edges starting point
-     * @param node2 the edges destination
-     * @spec.requires node1, node2 != null
-     * @throws IllegalArgumentException if either node "node1" or "node2" isn't present in this.nodes
-     * @return number of edges from "node1" to "node2"
-     */
-    public int numberOfEdges(String node1, String node2) {
-        checkRep();
-
-        //throws IllegalArgumentException if node is null
-        if (node1 == null || node2 == null)
-            throw new IllegalArgumentException();
-
-        // check if nodes exist in the graph
-        if (!(Graph.containsKey(node1)))
-            throw new IllegalArgumentException();
-
-        if (!(Graph.containsKey(node2)))
-            throw new IllegalArgumentException();
-
-        Set<labelEdge> children = Graph.get(node1);
-        int numEdges = 0;
-        for (labelEdge e : children) {
-            if (e.getDest().equals(node2))
-                numEdges++;
+        Set<E> children = new HashSet<>();
+        for(labelEdge<E, T> e : Graph.get(n)) {
+            children.add(e.getDest());
         }
-
         checkRep();
-        return numEdges;
+        return children;
+
+
     }
 
     /**
-     * Removes an edge from "start" to "end"
-     * with the label "label" from the graph and returns
-     * the edge. Returns null if the edge does not exist.
+     * Tells us if the edge exists in the graph
      *
-     * @param start, the origin of the edge
-     * @param end, the destination of the edge
-     * @param label, the label of the edge
-     * @spec.requires start, end, label != null
-     * @spec.modifies this.outgoingEdges
-     * @spec.effects removes the edge from this.outgoingEdges
-     * @throws IllegalArgumentException if either nodes "start" or "end" isn't present in this.nodes
-     * @return either the edge removed from the graph or null if the edge doesn't exist
+     * @param startNode - starting node of edge whose existence we are checking
+     * @param endNode - ending node of edge whose existence we are checking
+     * @param label - label of edge whose existence we are checking
+     * @throws IllegalArgumentException if any parameter is null or any node doesn't exist in the graph
+     * @return
      */
-    public labelEdge removeEdge(String start, String end, String label) {
+    public boolean containsEdge(E startNode, E endNode, T label) {
         checkRep();
+        if(startNode == null || endNode == null || label == null) {
+            throw new IllegalArgumentException("No input can be null");
+        }
+        if(!containsNode(startNode)) {
+            throw new IllegalArgumentException("Start Node must exist in graph");
+        }
+        if(!containsNode(endNode)) {
+            throw new IllegalArgumentException("End Node must exist in graph");
+        }
+        labelEdge<E, T> contains = new labelEdge<>(startNode, endNode, label);
+        Set<labelEdge<E, T>> edges = Graph.get(startNode);
+        for(labelEdge<E, T> e : edges) {
+            if(e.equals(contains)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
-        //throws IllegalArgumentException if the nodes or labels are null
-        if (start == null || end == null || label == null)
-            throw new IllegalArgumentException();
-
-        // check if nodes exist in the graph
-        if (!(Graph.containsKey(start)))
-            throw new IllegalArgumentException();
-
-        if (!(Graph.containsKey(end)))
-            throw new IllegalArgumentException();
-
-        TreeSet<labelEdge> startingNodesEdges = Graph.get(start);
-        labelEdge e = new labelEdge(end, label);
-
-        // check if the edge exists in the graph
-        if (!(startingNodesEdges.contains(e)))
-            return null;
-
-        startingNodesEdges.remove(e);
-        checkRep();
-        return e;
+    /**
+     * Removes the specified edge from a given "start" and "end" with the label "label"
+     *
+     * @param start - origin of the edge
+     * @param end - destination of the edge
+     * @param label - label of the edge
+     * @throws IllegalArgumentException if any parameter is null or a node doesn't exist in graph
+     * @spec.modifies graph
+     * @spec.effects removes specified edge from graph
+     */
+    public void removeEdge(E start, E end, T label) {
+        boolean removed = false;
+        if(start == null || end == null || label == null) {
+            throw new IllegalArgumentException("No input can be null");
+        }
+        if(!containsNode(start)) {
+            throw new IllegalArgumentException("Start Node must exist in graph");
+        }
+        if(!containsNode(end)) {
+            throw new IllegalArgumentException("End Node must exist in graph");
+        }
+        Set<labelEdge<E, T>> edges = Graph.get(start);
+        labelEdge<E, T> edge = new labelEdge<E, T>(start, end, label);
+        for(labelEdge<E, T> e : edges) {
+            if(e.equals(edge)) {
+                edges.remove(e);
+                removed = true;
+            }
+        }
+        if(!removed) {
+            throw new IllegalArgumentException("Edge doesn't exist");
+        }
     }
 
 
@@ -274,28 +273,14 @@ public class Graph  {
     /**
      * Checks if rep invariant holds.
      */
-    private void checkRep(){
-        if (check) {
-            // check if the graph is null
-            if (Graph == null)
-                throw new RuntimeException();
-
-            Set<String> nodes = Graph.keySet();
-
-            // check if any nodes are null
-            for (String n : nodes) {
-                if (n == null)
-                    throw new RuntimeException();
-
-                TreeSet<labelEdge> nodesEdges = Graph.get(n);
-                // check if any edges are null
-                for (labelEdge le : nodesEdges) {
-                    if (le == null)
-                        throw new RuntimeException();
-
-                    // check if any destination nodes don't exist
-                    if (!(Graph.containsKey(le.getDest())))
-                        throw new RuntimeException();
+    private void checkRep() {
+        assert Graph != null;
+        if(check) {
+            for(E node : Graph.keySet()) {
+                assert node != null;
+                assert Graph.get(node) != null;
+                for(labelEdge<E, T> e : Graph.get(node)) {
+                    assert e != null;
                 }
             }
         }
