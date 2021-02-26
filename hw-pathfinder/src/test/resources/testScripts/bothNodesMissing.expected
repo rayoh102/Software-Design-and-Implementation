@@ -1,0 +1,7 @@
+# Find a path with Dijkstra's algorithm when
+# both nodes don't exist
+
+created graph simpleGraph
+
+unknown node A
+unknown node B

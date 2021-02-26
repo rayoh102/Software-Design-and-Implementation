@@ -1,0 +1,17 @@
+# Test if the weights are rounded and ordered
+# properly when we find a node's children
+
+created graph simpleGraph
+
+added node A to simpleGraph
+added node B to simpleGraph
+added node C to simpleGraph
+added node D to simpleGraph
+
+added edge 10.000 from A to B in simpleGraph
+added edge 599.323 from A to C in simpleGraph
+added edge 12.214 from A to C in simpleGraph
+added edge 1.313 from C to D in simpleGraph
+added edge 3.513 from B to D in simpleGraph
+
+the children of A in simpleGraph are: B(10.000) C(12.214) C(599.323)
