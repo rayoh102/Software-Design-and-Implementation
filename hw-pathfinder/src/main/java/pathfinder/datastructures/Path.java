@@ -20,7 +20,7 @@ import java.util.List;
  * Path#getStart() and Path#getEnd(). Also contains a cached
  * version of the total cost along this path, for efficient repeated access.
  */
-public class Path implements Iterable<Path.Segment> {
+public class Path<E> implements Iterable<Path<E>.Segment> {
 
     // AF(this) =
     //      first point in the path => start
@@ -45,9 +45,10 @@ public class Path implements Iterable<Path.Segment> {
     /**
      * The point at the beginning of this path.
      */
-    private Point start;
+    private E start;
 
     /**
+     /**
      * The ordered sequence of segments representing a path between points.
      */
     private List<Segment> path;
@@ -58,7 +59,7 @@ public class Path implements Iterable<Path.Segment> {
      *
      * @param start The starting point of the path.
      */
-    public Path(Point start) {
+    public Path(E start) {
         this.start = start;
         this.cost = 0;
         this.path = new ArrayList<>();
@@ -76,10 +77,10 @@ public class Path implements Iterable<Path.Segment> {
      * @param segmentCost The cost of the segment being added to the end of this path.
      * @return A new path representing the current path with the given segment appended to the end.
      */
-    public Path extend(Point newEnd, double segmentCost) {
+    public Path<E> extend(E newEnd, double segmentCost) {
         checkRep();
         //
-        Path extendedPath = new Path(start);
+        Path<E> extendedPath = new Path<E>(start);
         extendedPath.path.addAll(this.path);
         extendedPath.path.add(new Segment(this.getEnd(), newEnd, segmentCost));
         extendedPath.cost = this.cost + segmentCost;
@@ -100,7 +101,7 @@ public class Path implements Iterable<Path.Segment> {
     /**
      * @return The point at the beginning of this path.
      */
-    public Point getStart() {
+    public E getStart() {
         return start;
     }
 
@@ -108,7 +109,7 @@ public class Path implements Iterable<Path.Segment> {
      * @return The point at the end of this path, which may be the start point if this path
      * contains no segments (i.e. this path is from the start point to itself).
      */
-    public Point getEnd() {
+    public E getEnd() {
         if(path.size() == 0) {
             return start;
         }
@@ -123,11 +124,11 @@ public class Path implements Iterable<Path.Segment> {
      * UnsupportedOperationException if Iterator#remove() is called.
      */
     @Override
-    public Iterator<Segment> iterator() {
+    public Iterator<Path<E>.Segment> iterator() {
         // Create a wrapping iterator to guarantee exceptional behavior on Iterator#remove.
-        return new Iterator<Segment>() {
+        return new Iterator<Path<E>.Segment>() {
 
-            private Iterator<Segment> backingIterator = path.iterator();
+            private Iterator<Path<E>.Segment> backingIterator = path.iterator();
 
             @Override
             public boolean hasNext() {
@@ -135,7 +136,7 @@ public class Path implements Iterable<Path.Segment> {
             }
 
             @Override
-            public Path.Segment next() {
+            public Path<E>.Segment next() {
                 return backingIterator.next();
             }
 
@@ -210,6 +211,7 @@ public class Path implements Iterable<Path.Segment> {
     }
 
     /**
+     * @spec.requires Segment type is immutable
      * Segment represents a single segment as part of a longer, more complex path between points.
      * Segments are immutable parts of a larger path that cannot be instantiated directly, and
      * are created as part of larger paths by calling Path#extend(Point, double).
@@ -227,12 +229,12 @@ public class Path implements Iterable<Path.Segment> {
         /**
          * The beginning of this segment.
          */
-        private final Point start;
+        private final E start;
 
         /**
          * The end of this segment.
          */
-        private final Point end;
+        private final E end;
 
         /**
          * The cost of travelling this segment.
@@ -248,7 +250,7 @@ public class Path implements Iterable<Path.Segment> {
          * @throws NullPointerException     if either point is null.
          * @throws IllegalArgumentException if cost is infinite or NaN
          */
-        private Segment(Point start, Point end, double cost) {
+        private Segment(E start, E end, double cost) {
             if(start == null || end == null) {
                 throw new NullPointerException("Segments cannot have null points.");
             }
@@ -266,7 +268,7 @@ public class Path implements Iterable<Path.Segment> {
         /**
          * @return The beginning point of this segment.
          */
-        public Point getStart() {
+        public E getStart() {
             // Note: Since Points are immutable, this isn't rep exposure.
             return this.start;
         }
@@ -274,7 +276,7 @@ public class Path implements Iterable<Path.Segment> {
         /**
          * @return The ending point of this segment.
          */
-        public Point getEnd() {
+        public E getEnd() {
             return this.end;
         }
 
@@ -303,13 +305,13 @@ public class Path implements Iterable<Path.Segment> {
             if(this == obj) {
                 return true;
             }
-            if(!(obj instanceof Segment)) {
+            if(!(obj instanceof Path<?>.Segment)) {
                 return false;
             }
-            Segment other = (Segment) obj;
+            Path<?>.Segment other = (Path<?>.Segment) obj;
             return other.getStart().equals(this.getStart())
-                   && other.getEnd().equals(this.getEnd())
-                   && (Double.compare(this.cost, other.cost) == 0);
+                    && other.getEnd().equals(this.getEnd())
+                    && (Double.compare(this.cost, other.cost) == 0);
         }
 
         @Override

@@ -12,6 +12,9 @@
 package pathfinder;
 
 import pathfinder.datastructures.Path;
+import pathfinder.datastructures.Point;
+import pathfinder.parser.CampusBuilding;
+import pathfinder.parser.CampusPath;
 
 import java.util.Map;
 
@@ -66,7 +69,7 @@ public interface ModelAPI {
      *                                  {@literal null}, or not valid short names of buildings in
      *                                  this campus map.
      */
-    public Path findShortestPath(String startShortName, String endShortName);
+    public Path<Point> findShortestPath(String startShortName, String endShortName);
     // You'll need to change this return type to use the generic Path once you've
     // updated the Path ADT to be generic.
 
