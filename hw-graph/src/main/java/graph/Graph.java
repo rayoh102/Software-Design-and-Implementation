@@ -9,7 +9,7 @@ import java.util.*;
  * @spec.specfield set // edges in the graph
  */
 
-public class Graph <E, T> {
+public class Graph <E, T>{
     // Rep invariant:
     //     In Map graph we have a mapping from Node -> edges, where edges contains edges the node points to.
     //     graph != null && all Node in graph != null && all edges in graph != null && all e in edges != null
@@ -48,13 +48,21 @@ public class Graph <E, T> {
      * @throws IllegalArgumentException if node is null
      * @spec.modifies graph
      * @spec.effects creates a new node and adds it to the graph
+     * @return true if this graph did not already contain node n
      */
-    public void addNode(E n) {
+    public boolean addNode(E n) {
         if(n == null) {
             throw new IllegalArgumentException("Node can't be null");
         }
-        Graph.put(n, new HashSet<>());
+
+        boolean addedNode = false;
+        if (!(Graph.containsKey(n))) {
+            Graph.put(n, new HashSet<>());
+            addedNode = true;
+        }
+
         checkRep();
+        return addedNode;
     }
 
 
@@ -70,7 +78,7 @@ public class Graph <E, T> {
      * @spec.modifies graph
      * @spec.effects creates a new edge and adds it to the graph
      */
-    public void addEdge(E start, E end, T label) {
+    public boolean addEdge(E start, E end, T label) {
         if(start == null || end == null || label == null) {
             throw new IllegalArgumentException("No input can be null");
         }
@@ -80,11 +88,16 @@ public class Graph <E, T> {
         if(!containsNode(end)) {
             throw new IllegalArgumentException("End Node must exist in graph");
         }
+
+        boolean addedEdge = false;
+
         labelEdge<E, T> newEdge = new labelEdge<>(start, end, label);
         if(!Graph.get(start).contains(newEdge)) {
             Graph.get(start).add(newEdge);
+            addedEdge = true;
         }
         checkRep();
+        return addedEdge;
     }
 
 

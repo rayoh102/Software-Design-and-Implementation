@@ -8,7 +8,7 @@ package graph;
  *
  */
 
-public class labelEdge<E, T> {
+public class labelEdge<E, T>{
 
     // Rep invariant:
     //     startNode != null && endNode != null && startNode != null

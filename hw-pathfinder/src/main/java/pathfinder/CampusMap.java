@@ -21,6 +21,7 @@ import pathfinder.parser.CampusPathsParser;
 import java.util.*;
 
 
+
 /**
  * This class is a map of the UW campus. It is a group of points in cartesian coordinates connected by their distance
  * to each other via paths.
@@ -61,7 +62,6 @@ public class CampusMap implements ModelAPI {
      * "graph" of path and building locations as points in 2D, with distance as edges. Uses parser of buildings to
      * create a mapping for each building name to its corresponding space in 2D as a Point.
      */
-
     public CampusMap() {
         CampusPathsParser parser = new CampusPathsParser();
         shortToLong = new HashMap<>();
@@ -100,15 +100,11 @@ public class CampusMap implements ModelAPI {
         return graph;
     }
 
-
     /**
      * @param shortName The short name of a building to query.
      * @return {@literal true} iff the short name provided exists in this campus map.
      */
-
-    @Override
     public boolean shortNameExists(String shortName) {
-        // TODO: Implement this method exactly as it is specified in ModelAPI
         return shortToLong.containsKey(shortName);
     }
 
@@ -117,9 +113,7 @@ public class CampusMap implements ModelAPI {
      * @return The long name of the building corresponding to the provided short name.
      * @throws IllegalArgumentException if the short name provided does not exist.
      */
-    @Override
     public String longNameForShort(String shortName) {
-        // TODO: Implement this method exactly as it is specified in ModelAPI
         if(!shortNameExists(shortName)) {
             throw new IllegalArgumentException("Building with given short name doesn't exist");
         }
@@ -129,9 +123,7 @@ public class CampusMap implements ModelAPI {
     /**
      * @return A mapping from all the buildings' short names to their long names in this campus map.
      */
-    @Override
     public Map<String, String> buildingNames() {
-        // TODO: Implement this method exactly as it is specified in ModelAPI
         return Collections.unmodifiableMap(shortToLong);
     }
 
@@ -146,9 +138,7 @@ public class CampusMap implements ModelAPI {
      *                                  {@literal null}, or not valid short names of buildings in
      *                                  this campus map.
      */
-    @Override
-    public Path findShortestPath(String startShortName, String endShortName) {
-        // TODO: Implement this method exactly as it is specified in ModelAPI
+    public Path<Point> findShortestPath(String startShortName, String endShortName) {
         if(startShortName == null || endShortName == null) {
             throw new IllegalArgumentException("No input can be null");
         }
@@ -159,6 +149,7 @@ public class CampusMap implements ModelAPI {
         Point endPoint = lNameToLocation.get(shortToLong.get(endShortName));
         return DijkstrasAlgorithm.minimumCostPath(campusGraph, startPoint, endPoint);
     }
+
 }
 
 

@@ -8,9 +8,6 @@ import org.junit.Before;
 import org.junit.Test;
 import graph.*;
 
-import org.junit.Rule;
-import org.junit.rules.Timeout;
-
 /**
  * This class contains test cases that test the implementation of labelEdge class
  * @Rule public Timeout globalTimeout = Timeout.seconds(10); // 10 seconds max per method tested
@@ -18,21 +15,21 @@ import org.junit.rules.Timeout;
 
 public class labelEdgeTest {
     private static final int TIMEOUT = 2000;
-    private labelEdge lEdge;
+    private labelEdge<String, String> lEdge;
 
     @Before
     public void setUp() throws Exception {
-        lEdge = new labelEdge("b", "AB");
+        lEdge = new labelEdge<>("a", "b", "AB");
     }
 
     @Test(timeout = TIMEOUT, expected = IllegalArgumentException.class)
     public void makeEdgeWithNullDestinationTest() {
-        new labelEdge(null, "AB");
+        new labelEdge<>("a", null, "AB");
     }
 
     @Test(timeout = TIMEOUT, expected = IllegalArgumentException.class)
     public void makeEdgeWithNullLabelTest() {
-        new labelEdge("b", null);
+        new labelEdge<>("a", "b", null);
     }
 
     @Test(timeout = TIMEOUT)
@@ -57,12 +54,12 @@ public class labelEdgeTest {
 
     @Test(timeout = TIMEOUT)
     public void equalsOnhDiffLabelEdgeTest() {
-        assertFalse(lEdge.equals(new labelEdge("a", "AB")));
+        assertFalse(lEdge.equals(new labelEdge<>("a", "b", "AB")));
     }
 
     @Test(timeout = TIMEOUT)
     public void equalSameLabelEdgeTest() {
-        assertTrue(lEdge.equals(new labelEdge("b", "AB")));
+        assertTrue(lEdge.equals(new labelEdge<>("a", "b", "AB")));
     }
 
     @Test(timeout = TIMEOUT)
