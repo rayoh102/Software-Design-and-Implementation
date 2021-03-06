@@ -13,8 +13,10 @@ import React, {Component} from 'react';
 
 interface EdgeListProps {
     onChange(edges: any): void;  // called when a new edge list is ready
-                                 // once you decide how you want to communicate the edges to the App, you should
-                                 // change the type of edges so it isn't `any`
+    onDraw(edges: any): void; //called when we want to draw with the current list of edges
+    onClear(edges: any): void; //called when we want to get rid of the current list of edges
+    size: number; //size of the grid
+    value: string; //display text
 }
 
 /**
@@ -22,6 +24,69 @@ interface EdgeListProps {
  * Also contains the buttons that the user will use to interact with the app.
  */
 class EdgeList extends Component<EdgeListProps> {
+    private edgeList: string;
+
+    constructor(props: EdgeListProps) {
+        super(props);
+        this.edgeList = "";
+    }
+
+    onChangeInput = (evt: any) => {
+        const edges = evt.target.value;
+        this.edgeList = edges;
+        this.props.onChange(edges);
+    }
+
+    handleDraw = () => {
+        //first check if there is anything entered
+        if(this.edgeList !== "") {
+            let edge = this.edgeList.split("\n");
+            for(let count = 0; count < edge.length; count++) {
+                let line = edge[count];
+                let edgeData = line.split(" ");
+                if(edgeData[0] !== "" && edgeData.length !== 3) {
+                    alert("You provided an incorrect format for the list of edges. You must input an edge in the form "+
+                        "x1,y1 x2,y2 color where x1 and y1 are positive number coordinates for a point on the grid as "+
+                        "well as x2 and y2 for another point.\nYou didn't give enough information for line" + count)
+                }
+                else {
+                    if(edgeData[0] !== "") {
+                        let first = edgeData[0].split(",");
+                        let second = edgeData[1].split(",");
+                        if(first.length !== 2 || second.length !== 2) {
+                            alert("You provided an incorrect format for the list of edges. You must input an edge in " +
+                                "the form x1,y1 x2,y2 color where x1 and y1 are positive number coordinates for a" +
+                                "point on the grid as well as x2 and y2 for another point.\nYou didn't give correct" +
+                                "point formatting for line" + count);
+                        }
+                        else {
+                            let firstX = parseInt(first[0]);
+                            let firstY = parseInt(first[1]);
+                            let secondX = parseInt(second[0]);
+                            let secondY = parseInt(second[1]);
+                            if(isNaN(firstX) || isNaN(firstY) || isNaN(secondX) || isNaN(secondY) || firstX < 0 ||
+                                firstY < 0 || secondX < 0 || secondY < 0 || firstX >= this.props.size ||
+                                firstX >= this.props.size || secondX >= this.props.size || secondY >= this.props.size) {
+                                alert("You provided an incorrect format for the list of edges. You must input an edge "+
+                                    "in the form x1,y1 x2,y2 color where x1 and y1 are positive number coordinates " +
+                                    "for a point on the grid as well as x2 and y2 for another point.\nYou didn't give "+
+                                    "numbers or your numbers were invalid on line " + count);
+
+                            }
+                            else {
+                                this.props.onDraw(this.edgeList);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    handleClear = () => {
+        this.props.onDraw("");
+    }
+
     render() {
         return (
             <div id="edge-list">
@@ -29,11 +94,11 @@ class EdgeList extends Component<EdgeListProps> {
                 <textarea
                     rows={5}
                     cols={30}
-                    onChange={() => {console.log('textarea onChange was called');}}
-                    value={"I'm stuck..."}
+                    onChange={this.onChangeInput}
+                    value={this.props.value}
                 /> <br/>
-                <button onClick={() => {console.log('Draw onClick was called');}}>Draw</button>
-                <button onClick={() => {console.log('Clear onClick was called');}}>Clear</button>
+                <button onClick={this.handleDraw}>Draw</button>
+                <button onClick={this.handleClear}>Clear</button>
             </div>
         );
     }

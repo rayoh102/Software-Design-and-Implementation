@@ -29,7 +29,13 @@ class GridSizePicker extends Component<GridSizePickerProps> {
         //
         // TODO - Not currently doing any validation or error handling. Should probably add some...
         const newSize: number = parseInt(event.target.value);
-        this.props.onChange(newSize); // Tell our parent component about the new size.
+        if(newSize > 100) {
+            alert("Size is too big");
+        }
+        else {
+            this.props.onChange(newSize); // Tell our parent component about the new size.
+        }
+
     };
 
     render() {
