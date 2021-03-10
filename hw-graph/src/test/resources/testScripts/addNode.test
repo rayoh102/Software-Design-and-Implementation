@@ -1,0 +1,10 @@
+# Tests node addition
+
+# Create a graph
+CreateGraph graph1
+
+# Add a node
+AddNode graph1 n1
+
+# See if node is in graph
+ListNodes graph1

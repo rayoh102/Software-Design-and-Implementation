@@ -1,0 +1,17 @@
+# Tests if we can connect between the same node with different labels
+
+# Create a graph
+created graph graph1
+
+# Add two nodes
+added node n1 to graph1
+added node n2 to graph1
+
+# Add an edge
+added edge e1 from n1 to n2 in graph1
+
+# Add same edge, different label
+added edge e2 from n1 to n2 in graph1
+
+# Check edges
+the children of n1 in graph1 are: n2(e1) n2(e2)

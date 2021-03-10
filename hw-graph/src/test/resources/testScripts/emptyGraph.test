@@ -1,7 +1,4 @@
-# Tests that a graph can be created.
+# Tests a graph with no nodes
 
-# Create a graph
-CreateGraph emptyGraph
-
-# Print the nodes in the graph
-ListNodes emptyGraph
+# Create the graph
+CreateGraph graph1

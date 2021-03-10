@@ -1,0 +1,10 @@
+# Tests node addition
+
+# Create a graph
+created graph graph1
+
+# Add a node
+added node n1 to graph1
+
+# See if node is in graph
+graph1 contains: n1

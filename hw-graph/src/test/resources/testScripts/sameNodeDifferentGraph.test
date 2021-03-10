@@ -1,0 +1,25 @@
+# Tests if we can create multiple instances of the same graph
+
+# Create a graph
+CreateGraph graph1
+
+# Create another graph
+CreateGraph graph2
+
+# Add a node to first graph
+AddNode graph1 n1
+
+# Add same node to second graph
+AddNode graph2 n1
+
+# Repeat for another node
+AddNode graph1 n2
+AddNode graph2 n2
+
+# Add edges for both graphs
+AddEdge graph1 n1 n2 e1
+AddEdge graph2 n1 n2 e1
+
+# Test children in both graphs
+ListChildren graph1 n1
+ListChildren graph2 n1

@@ -1,0 +1,17 @@
+# Tests if we can connect between the same node with different labels
+
+# Create a graph
+CreateGraph graph1
+
+# Add two nodes
+AddNode graph1 n1
+AddNode graph1 n2
+
+# Add an edge
+AddEdge graph1 n1 n2 e1
+
+# Add same edge, different label
+AddEdge graph1 n1 n2 e2
+
+# Check edges
+ListChildren graph1 n1

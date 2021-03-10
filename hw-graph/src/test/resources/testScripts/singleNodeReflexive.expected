@@ -1,0 +1,13 @@
+# Tests reflexive edge addition with a single node
+
+# Create a graph
+created graph graph1
+
+# Add a node
+added node n1 to graph1
+
+# Add reflexive edge
+added edge e1 from n1 to n1 in graph1
+
+# See if edge is reflexive
+the children of n1 in graph1 are: n1(e1)

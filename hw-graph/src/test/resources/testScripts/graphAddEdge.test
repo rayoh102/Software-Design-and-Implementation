@@ -1,0 +1,16 @@
+# Tests edge addition
+
+# Create a graph
+CreateGraph graph1
+
+# Add a node
+AddNode graph1 n1
+
+# Add another node
+AddNode graph1 n2
+
+# Add edge
+AddEdge graph1 n1 n2 e1
+
+# See if edge was added properly
+ListChildren graph1 n1

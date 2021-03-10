@@ -1,0 +1,26 @@
+# Tests if we can create multiple instances of the same graph
+
+# Create a graph
+created graph graph1
+
+# Create another graph
+created graph graph2
+
+# Add a node to first graph
+added node n1 to graph1
+
+# Add same node to second graph
+added node n1 to graph2
+
+# Repeat for another node
+added node n2 to graph1
+added node n2 to graph2
+
+# Add edges for both graphs
+added edge e1 from n1 to n2 in graph1
+added edge e1 from n1 to n2 in graph2
+
+# Test children in both graphs
+the children of n1 in graph1 are: n2(e1)
+the children of n1 in graph2 are: n2(e1)
+

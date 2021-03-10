@@ -1,7 +1,4 @@
-# Tests that a graph can be created.
+# Tests a graph with no nodes
 
-# Create a graph
-created graph emptyGraph
-
-# Print the nodes in the graph
-emptyGraph contains:
+# Create the graph
+created graph graph1
