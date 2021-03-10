@@ -79,9 +79,7 @@ public class GraphTestDriver {
     /**
      * String -> Graph: maps the names of graphs to the actual graph
      **/
-    // TODO for the student: Uncomment and parameterize the next line correctly:
-
-    private final Map<String, Graph> graphs = new HashMap<String, Graph>();
+    private final Map<String, Graph<String, String>> graphs = new HashMap<>();
     private final PrintWriter output;
     private final BufferedReader input;
 
@@ -101,8 +99,8 @@ public class GraphTestDriver {
      * @spec.effects Executes the commands read from the input and writes results to the output
      **/
     // Leave this method public
-    public void runTests() throws IOException {
-        // TODO: Implement this.
+    public void runTests()
+            throws IOException {
         String inputLine;
         while ((inputLine = input.readLine()) != null) {
             if ((inputLine.trim().length() == 0) ||
@@ -125,7 +123,6 @@ public class GraphTestDriver {
             }
             output.flush();
         }
-
     }
 
     private void executeCommand(String command, List<String> arguments) {
