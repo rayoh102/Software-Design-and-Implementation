@@ -27,7 +27,7 @@ public class DijkstrasAlgorithm {
      * if either of the nodes aren't in the graph
      * @return a Path representing the lowest cost path or null if a path doesn't exist
      */
-    public static <E> Path minimumCostPath(Graph<E, Double> graph, E start, E dest) {
+    public static <E> Path<E> minimumCostPath(Graph<E, Double> graph, E start, E dest) {
         if(graph == null || start == null || dest == null) {
             throw new IllegalArgumentException("No input can be null");
         }
