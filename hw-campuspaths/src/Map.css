@@ -23,7 +23,44 @@ but not setting the height means the image keeps the correct aspect ratio (it'll
 automatically to the correct thing).
  */
 canvas {
-    width: 90%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     margin: 0 auto;
     display: block;
+}
+
+.start_button {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 50px;
+    width: 200px;
+}
+
+.end_button {
+    position: absolute;
+    left: 0;
+    top: 50px;
+    height: 50px;
+    width: 200px;
+}
+
+.text_box {
+    position: absolute;
+    left: 200px;
+}
+
+.draw_button {
+    position: absolute;
+    left: 0;
+    top: 100px;
+}
+
+.clear_button {
+    position: absolute;
+    left: 100px;
+    top: 100px;
 }

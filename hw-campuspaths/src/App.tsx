@@ -10,15 +10,18 @@
  */
 
 import React, {Component} from 'react';
+import './style.css';
+import Map from "./Map";
 
-class App extends Component<{}, {}> {
 
+class App extends Component {
     render() {
         return (
-            <p>Here's the beginning of your AMAZING CampusPaths GUI!</p>
+            <Map />
         );
     }
-
 }
 
 export default App;
+
+
